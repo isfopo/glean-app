@@ -7,7 +7,6 @@
 
 import {
   StatusBar,
-  StyleSheet,
   Text,
   useColorScheme,
   View,
@@ -16,6 +15,8 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
+
+import "./global.css"
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -32,16 +33,12 @@ function AppContent() {
   const safeAreaInsets = useSafeAreaInsets();
 
   return (
-    <View style={styles.container}>
-      <Text>HI</Text>
+    <View className="flex-1 items-center justify-center bg-white">
+      <Text className="text-xl font-bold text-blue-500">
+        Welcome to Nativewind!
+      </Text>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default App;
