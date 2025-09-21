@@ -1,25 +1,32 @@
-import {
-  createStaticNavigation,
-  StaticParamList,
-} from '@react-navigation/native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HomeScreen } from './screens/HomeScreen';
+import { useAuthStore } from './store/auth';
+import SignInScreen from './screens/SignInScreen';
+import SignUpScreen from './screens/SignUpScreen';
+import HomeScreen from './screens/HomeScreen';
+import { PortalHost } from '@rn-primitives/portal';
 
-const RootStack = createNativeStackNavigator({
-  initialRouteName: 'Home',
-  screens: {
-    Home: HomeScreen,
-  },
-});
+const Stack = createNativeStackNavigator();
 
-type RootStackParamList = StaticParamList<typeof RootStack>;
+const AppNavigator = () => {
+  const { userToken } = useAuthStore();
 
-declare global {
-  namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
-  }
-}
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        {userToken == null ? (
+          <>
+            <Stack.Screen name="SignIn" component={SignInScreen} />
+            <Stack.Screen name="SignUp" component={SignUpScreen} />
+          </>
+        ) : (
+          <Stack.Screen name="Home" component={HomeScreen} />
+        )}
+      </Stack.Navigator>
+      <PortalHost />
+    </NavigationContainer>
+  );
+};
 
-const Navigation = createStaticNavigation(RootStack);
-
-export default Navigation;
+export default AppNavigator;

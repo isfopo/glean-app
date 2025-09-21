@@ -1,27 +1,21 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import { StatusBar, useColorScheme } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { PortalHost } from '@rn-primitives/portal';
-import Navigation from './src/Navigation';
-
+import React, { useEffect } from 'react';
+import { useAuthStore } from './src/store/auth';
+import AppNavigator from './src/Navigation';
+import SplashScreen from './src/screens/SplashScreen';
 import './global.css';
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+const App = () => {
+  const { isLoading, bootstrapAsync } = useAuthStore();
 
-  return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <Navigation />
-      <PortalHost />
-    </SafeAreaProvider>
-  );
-}
+  useEffect(() => {
+    bootstrapAsync();
+  }, [bootstrapAsync]);
+
+  if (isLoading) {
+    return <SplashScreen />;
+  }
+
+  return <AppNavigator />;
+};
 
 export default App;
