@@ -12,30 +12,21 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Text } from '@/components/ui/text';
 import * as React from 'react';
-import { Pressable, type TextInput, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 export function SignInForm({
   onSubmit,
   onSignUp,
-  onForgotPassword,
 }: {
   onSubmit: (data: any) => void;
   onSignUp: () => void;
   onForgotPassword: () => void;
 }) {
-  const passwordInputRef = React.useRef<TextInput>(null);
-
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-
-  function onEmailSubmitEditing() {
-    passwordInputRef.current?.focus();
-  }
+  const [handle, setHandle] = React.useState('');
 
   const handleSubmit = () => {
     onSubmit({
-      email,
-      password,
+      identifier: handle,
     });
   };
 
@@ -44,7 +35,7 @@ export function SignInForm({
       <Card className="border-border/0 sm:border-border shadow-none sm:shadow-sm sm:shadow-black/5">
         <CardHeader>
           <CardTitle className="text-center text-xl sm:text-left">
-            Sign in to your app
+            Sign in to Glean
           </CardTitle>
           <CardDescription className="text-center sm:text-left">
             Welcome back! Please sign in to continue
@@ -53,40 +44,15 @@ export function SignInForm({
         <CardContent className="gap-6">
           <View className="gap-6">
             <View className="gap-1.5">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="handle">Handle</Label>
               <Input
-                id="email"
-                placeholder="m@example.com"
-                keyboardType="email-address"
-                autoComplete="email"
+                id="handle"
+                placeholder="alice.bsky.social"
+                keyboardType="url"
                 autoCapitalize="none"
-                onChangeText={text => setEmail(text)}
-                onSubmitEditing={onEmailSubmitEditing}
-                returnKeyType="next"
-                submitBehavior="submit"
-              />
-            </View>
-            <View className="gap-1.5">
-              <View className="flex-row items-center">
-                <Label htmlFor="password">Password</Label>
-                <Button
-                  variant="link"
-                  size="sm"
-                  className="web:h-fit ml-auto h-4 px-1 py-0 sm:h-4"
-                  onPress={onForgotPassword}
-                >
-                  <Text className="font-normal leading-4">
-                    Forgot your password?
-                  </Text>
-                </Button>
-              </View>
-              <Input
-                ref={passwordInputRef}
-                id="password"
-                secureTextEntry
-                returnKeyType="send"
-                onChangeText={text => setPassword(text)}
+                onChangeText={text => setHandle(text)}
                 onSubmitEditing={handleSubmit}
+                returnKeyType="send"
               />
             </View>
             <Button className="w-full" onPress={handleSubmit}>

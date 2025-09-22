@@ -2,12 +2,13 @@ import React from 'react';
 import { View, ScrollView } from 'react-native';
 import { useAuthStore } from '../store/auth';
 import { SignInForm } from '../components/sign-in-form';
+import { Linking } from 'react-native';
 
-const SignInScreen = ({ navigation }: any) => {
+const SignInScreen = () => {
   const { signIn } = useAuthStore();
 
   const handleSignUp = () => {
-    navigation.navigate('SignUp');
+    Linking.openURL('https://bsky.app/');
   };
 
   const handleForgotPassword = () => {

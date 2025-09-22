@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import * as Keychain from 'react-native-keychain';
-import { postAuthCreateAccount, postAuthCreateSession } from 'glean-client';
 import client from '@/client';
 
 export interface UserCredentials {
@@ -32,13 +31,14 @@ export const useAuthStore = create<AuthState>(set => ({
   profile: null,
   signIn: async (data: UserCredentials) => {
     try {
-      const response = await postAuthCreateSession({
-        client,
+      const response = await client.post({
+        url: '/api/auth/login',
         body: {
-          identifier: data.email,
-          password: data.password,
+          ...data,
         },
       });
+
+      console.log(response);
 
       const { accessJwt, refreshJwt, did, profile, handle } =
         response.data as any;
@@ -64,10 +64,10 @@ export const useAuthStore = create<AuthState>(set => ({
   },
   signUp: async (data: UserCredentials) => {
     try {
-      const response = await postAuthCreateAccount({
-        client,
+      const response = await client.post({
+        url: '/api/auth/createSession',
         body: {
-          email: data.email,
+          identifier: data.email,
           password: data.password,
         },
       });
