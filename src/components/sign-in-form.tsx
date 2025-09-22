@@ -58,20 +58,16 @@ export function SignInForm({
               <Text>Continue</Text>
             </Button>
           </View>
-          <Text className="text-center text-sm">
-            Don&apos;t have an account?{' '}
+          <View>
+            <Text className="text-center text-sm">
+              Don&apos;t have an account?{' '}
+            </Text>
             <Pressable onPress={onSignUp}>
-              <Text className="text-sm underline underline-offset-4">
-                Sign up
+              <Text className="text-sm text-center underline underline-offset-4">
+                Sign up on Bluesky
               </Text>
             </Pressable>
-          </Text>
-          <View className="flex-row items-center">
-            <Separator className="flex-1" />
-            <Text className="text-muted-foreground px-4 text-sm">or</Text>
-            <Separator className="flex-1" />
           </View>
-          <SocialConnections />
         </CardContent>
       </Card>
     </View>
