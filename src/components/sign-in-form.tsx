@@ -20,7 +20,6 @@ export function SignInForm({
 }: {
   onSubmit: (data: any) => void;
   onSignUp: () => void;
-  onForgotPassword: () => void;
 }) {
   const [handle, setHandle] = React.useState('');
 

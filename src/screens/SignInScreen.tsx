@@ -11,10 +11,6 @@ const SignInScreen = () => {
     Linking.openURL('https://bsky.app/');
   };
 
-  const handleForgotPassword = () => {
-    // TODO: Navigate to forgot password screen
-  };
-
   return (
     <ScrollView
       keyboardShouldPersistTaps="handled"
@@ -22,11 +18,7 @@ const SignInScreen = () => {
       keyboardDismissMode="interactive"
     >
       <View className="w-full max-w-sm">
-        <SignInForm
-          onSubmit={signIn}
-          onSignUp={handleSignUp}
-          onForgotPassword={handleForgotPassword}
-        />
+        <SignInForm onSubmit={signIn} onSignUp={handleSignUp} />
       </View>
     </ScrollView>
   );
