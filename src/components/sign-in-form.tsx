@@ -25,9 +25,19 @@ export function SignInForm({
 }) {
   const passwordInputRef = React.useRef<TextInput>(null);
 
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+
   function onEmailSubmitEditing() {
     passwordInputRef.current?.focus();
   }
+
+  const handleSubmit = () => {
+    onSubmit({
+      email,
+      password,
+    });
+  };
 
   return (
     <View className="gap-6">
@@ -50,6 +60,7 @@ export function SignInForm({
                 keyboardType="email-address"
                 autoComplete="email"
                 autoCapitalize="none"
+                onChangeText={text => setEmail(text)}
                 onSubmitEditing={onEmailSubmitEditing}
                 returnKeyType="next"
                 submitBehavior="submit"
@@ -74,10 +85,11 @@ export function SignInForm({
                 id="password"
                 secureTextEntry
                 returnKeyType="send"
-                onSubmitEditing={() => onSubmit({})}
+                onChangeText={text => setPassword(text)}
+                onSubmitEditing={handleSubmit}
               />
             </View>
-            <Button className="w-full" onPress={() => onSubmit({})}>
+            <Button className="w-full" onPress={handleSubmit}>
               <Text>Continue</Text>
             </Button>
           </View>

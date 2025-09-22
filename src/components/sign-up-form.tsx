@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Text } from '@/components/ui/text';
+import { UserCredentials } from '@/store/auth';
 import * as React from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 
@@ -18,14 +19,24 @@ export function SignUpForm({
   onSubmit,
   onSignIn,
 }: {
-  onSubmit: (data: any) => void;
+  onSubmit: (data: UserCredentials) => void;
   onSignIn: () => void;
 }) {
   const passwordInputRef = React.useRef<TextInput>(null);
 
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+
   function onEmailSubmitEditing() {
     passwordInputRef.current?.focus();
   }
+
+  const handleSubmit = () => {
+    onSubmit({
+      email,
+      password,
+    });
+  };
 
   return (
     <View className="gap-6">
@@ -48,6 +59,7 @@ export function SignUpForm({
                 keyboardType="email-address"
                 autoComplete="email"
                 autoCapitalize="none"
+                onChangeText={text => setEmail(text)}
                 onSubmitEditing={onEmailSubmitEditing}
                 returnKeyType="next"
                 submitBehavior="submit"
@@ -62,10 +74,11 @@ export function SignUpForm({
                 id="password"
                 secureTextEntry
                 returnKeyType="send"
-                onSubmitEditing={() => onSubmit({})}
+                onChangeText={text => setPassword(text)}
+                onSubmitEditing={handleSubmit}
               />
             </View>
-            <Button className="w-full" onPress={() => onSubmit({})}>
+            <Button className="w-full" onPress={handleSubmit}>
               <Text>Continue</Text>
             </Button>
           </View>

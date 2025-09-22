@@ -1,10 +1,21 @@
 import { create } from 'zustand';
 import * as Keychain from 'react-native-keychain';
+import { postAuthCreateAccount, postAuthCreateSession } from 'glean-client';
+import client from '@/client';
+
+export interface UserCredentials {
+  email: string;
+  password: string;
+}
 
 type AuthState = {
   isLoading: boolean;
-  isSignout: boolean;
-  userToken: string | null;
+  isSignedIn: boolean;
+  accessJwt: string | null;
+  refreshJwt: string | null;
+  handle: string | null;
+  did: string | null;
+  profile: string | null;
   signIn: (data: any) => Promise<void>;
   signOut: () => void;
   signUp: (data: any) => Promise<void>;
@@ -13,32 +24,74 @@ type AuthState = {
 
 export const useAuthStore = create<AuthState>(set => ({
   isLoading: true,
-  isSignout: false,
-  userToken: null,
-  signIn: async (data: any) => {
-    const userToken = 'dummy-auth-token';
-    await Keychain.setGenericPassword('userToken', userToken);
-    set({ isSignout: false, userToken });
+  isSignedIn: false,
+  accessJwt: null,
+  refreshJwt: null,
+  handle: null,
+  did: null,
+  profile: null,
+  signIn: async (data: UserCredentials) => {
+    try {
+      const response = await postAuthCreateSession({
+        client,
+        body: {
+          identifier: data.email,
+          password: data.password,
+        },
+      });
+
+      const { accessJwt, refreshJwt, did, profile, handle } =
+        response.data as any;
+
+      await Keychain.setGenericPassword(data.email, data.password);
+
+      set({ isSignedIn: false, accessJwt, refreshJwt, did, profile, handle });
+    } catch (error) {
+      console.error('Sign In failed:', error);
+      // You might want to handle error states, e.g., set an error message in the store
+    }
   },
   signOut: async () => {
     await Keychain.resetGenericPassword();
-    set({ isSignout: true, userToken: null });
+    set({
+      isSignedIn: true,
+      accessJwt: null,
+      refreshJwt: null,
+      did: null,
+      profile: null,
+      handle: null,
+    });
   },
-  signUp: async (data: any) => {
-    const userToken = 'dummy-auth-token';
-    await Keychain.setGenericPassword('userToken', userToken);
-    set({ isSignout: false, userToken });
+  signUp: async (data: UserCredentials) => {
+    try {
+      const response = await postAuthCreateAccount({
+        client,
+        body: {
+          email: data.email,
+          password: data.password,
+        },
+      });
+
+      const { accessJwt, refreshJwt, did, profile, handle } =
+        response.data as any;
+
+      await Keychain.setGenericPassword(data.email, data.password);
+
+      set({ isSignedIn: false, accessJwt, refreshJwt, did, profile, handle });
+    } catch (error) {
+      console.error('Sign Up failed:', error);
+      // You might want to handle error states, e.g., set an error message in the store
+    }
   },
   bootstrapAsync: async () => {
-    let userToken;
+    // let userToken;
     try {
       const credentials = await Keychain.getGenericPassword();
       if (credentials) {
-        userToken = credentials.password;
       }
     } catch (e) {
       // Restoring token failed
     }
-    set({ isLoading: false, userToken });
+    set({ isLoading: false });
   },
 }));
