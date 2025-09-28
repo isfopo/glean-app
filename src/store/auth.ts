@@ -1,10 +1,10 @@
 import { create } from 'zustand';
 import * as Keychain from 'react-native-keychain';
 import client from '@/client';
+import { Linking } from 'react-native';
 
 export interface UserCredentials {
-  email: string;
-  password: string;
+  handle: string;
 }
 
 type AuthState = {
@@ -18,6 +18,7 @@ type AuthState = {
   signIn: (data: any) => Promise<void>;
   signOut: () => void;
   signUp: (data: any) => Promise<void>;
+  completeOAuth: (code: string) => Promise<void>;
   bootstrapAsync: () => Promise<void>;
 };
 
@@ -31,30 +32,26 @@ export const useAuthStore = create<AuthState>(set => ({
   profile: null,
   signIn: async (data: UserCredentials) => {
     try {
-      const response = await client.post({
+      const { response } = await client.post({
         url: '/api/auth/login',
         body: {
           ...data,
         },
       });
-
       console.log(response);
+      if (response.status > 400) {
+        throw new Error('Sign In failed');
+      }
 
-      const { accessJwt, refreshJwt, did, profile, handle } =
-        response.data as any;
-
-      await Keychain.setGenericPassword(data.email, data.password);
-
-      set({ isSignedIn: false, accessJwt, refreshJwt, did, profile, handle });
+      Linking.openURL(response.url);
     } catch (error) {
       console.error('Sign In failed:', error);
-      // You might want to handle error states, e.g., set an error message in the store
     }
   },
   signOut: async () => {
     await Keychain.resetGenericPassword();
     set({
-      isSignedIn: true,
+      isSignedIn: false,
       accessJwt: null,
       refreshJwt: null,
       did: null,
@@ -77,10 +74,25 @@ export const useAuthStore = create<AuthState>(set => ({
 
       await Keychain.setGenericPassword(data.email, data.password);
 
-      set({ isSignedIn: false, accessJwt, refreshJwt, did, profile, handle });
+      set({ isSignedIn: true, accessJwt, refreshJwt, did, profile, handle });
     } catch (error) {
       console.error('Sign Up failed:', error);
       // You might want to handle error states, e.g., set an error message in the store
+    }
+  },
+  completeOAuth: async (code: string) => {
+    try {
+      const response = await client.post({
+        url: '/api/auth/token',
+        body: { code },
+      });
+
+      const { accessJwt, refreshJwt, did, profile, handle } =
+        response.data as any;
+
+      set({ isSignedIn: true, accessJwt, refreshJwt, did, profile, handle });
+    } catch (error) {
+      console.error('Complete OAuth failed:', error);
     }
   },
   bootstrapAsync: async () => {
