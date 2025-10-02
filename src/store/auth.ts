@@ -61,20 +61,21 @@ export const useAuthStore = create<AuthState>(set => ({
   },
   signUp: async (data: UserCredentials) => {
     try {
-      const response = await client.post({
-        url: '/api/auth/createSession',
-        body: {
-          identifier: data.email,
-          password: data.password,
-        },
-      });
+      throw new Error('Not implemented');
+      // const response = await client.post({
+      //   url: '/api/auth/createSession',
+      //   body: {
+      //     identifier: data.email,
+      //     password: data.password,
+      //   },
+      // });
 
-      const { accessJwt, refreshJwt, did, profile, handle } =
-        response.data as any;
+      // const { accessJwt, refreshJwt, did, profile, handle } =
+      //   response.data as any;
 
-      await Keychain.setGenericPassword(data.email, data.password);
+      // await Keychain.setGenericPassword(data.email, data.password);
 
-      set({ isSignedIn: true, accessJwt, refreshJwt, did, profile, handle });
+      // set({ isSignedIn: true, accessJwt, refreshJwt, did, profile, handle });
     } catch (error) {
       console.error('Sign Up failed:', error);
       // You might want to handle error states, e.g., set an error message in the store
