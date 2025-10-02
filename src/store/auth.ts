@@ -1,7 +1,5 @@
 import { create } from 'zustand';
-import * as Keychain from 'react-native-keychain';
 import { AtpSessionData, BskyAgent } from '@atproto/api';
-import { fetchHandler } from '../../fetch-polyfill';
 
 console.log('BskyAgent loaded');
 

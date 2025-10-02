@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Text } from '@/components/ui/text';
 import * as React from 'react';
-import { Pressable, View, Linking } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 export function SignInForm({
   onSubmit,
