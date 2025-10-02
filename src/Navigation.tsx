@@ -10,12 +10,12 @@ import { PortalHost } from '@rn-primitives/portal';
 const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
-  const { isSignedIn } = useAuthStore();
+  const { session } = useAuthStore();
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {!isSignedIn ? (
+        {!session ? (
           <>
             <Stack.Screen name="SignIn" component={SignInScreen} />
             <Stack.Screen name="SignUp" component={SignUpScreen} />

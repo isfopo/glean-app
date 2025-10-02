@@ -1,4 +1,4 @@
-import { SocialConnections } from '@/components/social-connections';
+// import { SocialConnections } from '@/components/social-connections';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -11,21 +11,27 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Text } from '@/components/ui/text';
 import * as React from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable, View, Linking } from 'react-native';
 
 export function SignInForm({
   onSubmit,
   onSignUp,
 }: {
-  onSubmit: (data: any) => void;
+  onSubmit: (data: any) => Promise<void>;
   onSignUp: () => void;
 }) {
   const [handle, setHandle] = React.useState('');
+  const [password, setPassword] = React.useState('');
 
-  const handleSubmit = () => {
-    onSubmit({
-      identifier: handle,
-    });
+  const handleSubmit = async () => {
+    try {
+      await onSubmit({
+        handle,
+        password,
+      });
+    } catch (error) {
+      console.error('Sign In failed:', error);
+    }
   };
 
   return (
@@ -53,8 +59,20 @@ export function SignInForm({
                 returnKeyType="send"
               />
             </View>
+            <View className="gap-1.5">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                placeholder="Password"
+                secureTextEntry
+                autoCapitalize="none"
+                onChangeText={text => setPassword(text)}
+                onSubmitEditing={handleSubmit}
+                returnKeyType="send"
+              />
+            </View>
             <Button className="w-full" onPress={handleSubmit}>
-              <Text>Continue</Text>
+              <Text>Sign In</Text>
             </Button>
           </View>
           <View>
