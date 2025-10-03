@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 import { AtpSessionData, BskyAgent } from '@atproto/api';
+import { postApiAuthLogin } from '@/api';
+import { encodeToBase64 } from '@/lib/crypto';
 import client from '@/client';
-
-console.log('BskyAgent loaded');
 
 const getAgent = (): BskyAgent => {
   return new BskyAgent({
@@ -19,7 +19,6 @@ type AuthState = {
   isLoading: boolean;
   isSignedIn: boolean;
   session: AtpSessionData | undefined;
-  agent: BskyAgent;
   handle: string | null;
   did: string | null;
   profile: string | null;
@@ -29,7 +28,7 @@ type AuthState = {
   bootstrapAsync: () => Promise<void>;
 };
 
-export const useAuthStore = create<AuthState>((set, get) => ({
+export const useAuthStore = create<AuthState>(set => ({
   isLoading: true,
   isSignedIn: false,
   session: undefined,
@@ -38,12 +37,23 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   did: null,
   profile: null,
   signIn: async ({ handle, password }: UserCredentials) => {
-    const credentials = Buffer.from(`${handle}:${password}`).toString('base64');
-
     // Call login route in client
+    const { data } = await postApiAuthLogin({
+      client,
+      headers: {
+        Authorization: `Basic ${encodeToBase64(`${handle}:${password}`)}`,
+        Accept: 'application/json',
+      },
+    });
 
-    // Add to authheader
-    get().agent.setHeader('authorization', `Basic ${credentials}`);
+    if (!data) {
+      throw new Error('Invalid response');
+    }
+
+    set({
+      isSignedIn: true,
+      session: data.session as unknown as AtpSessionData,
+    });
 
     try {
     } catch (error) {

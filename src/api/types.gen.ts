@@ -87,13 +87,9 @@ export type PostApiAuthLoginData = {
     body?: never;
     headers: {
         /**
-         * User's handle
+         * Authorization header with Bluesky credentials in the format "Basic base64(username:password)"
          */
-        'x-handle': string;
-        /**
-         * User's password
-         */
-        'x-password': string;
+        Authorization: string;
     };
     path?: never;
     query?: never;
@@ -116,8 +112,9 @@ export type PostApiAuthLoginResponses = {
      * Login successful
      */
     200: {
-        success?: boolean;
-        user?: User;
+        session?: {
+            [key: string]: unknown;
+        };
     };
 };
 

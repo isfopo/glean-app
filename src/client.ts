@@ -1,4 +1,4 @@
-import { createClient, createConfig } from 'glean-client/dist/client';
+import { createClient, createConfig } from './api/client';
 
 import { useAuthStore } from './store/auth';
 
