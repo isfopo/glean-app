@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { AtpSessionData, BskyAgent } from '@atproto/api';
+import client from '@/client';
 
 console.log('BskyAgent loaded');
 
@@ -36,16 +37,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   handle: null,
   did: null,
   profile: null,
-  signIn: async (data: UserCredentials) => {
+  signIn: async ({ handle, password }: UserCredentials) => {
+    const credentials = Buffer.from(`${handle}:${password}`).toString('base64');
+
+    // Call login route in client
+
+    // Add to authheader
+    get().agent.setHeader('authorization', `Basic ${credentials}`);
+
     try {
-      const agent = get().agent;
-      await agent.login({ identifier: data.handle, password: data.password });
-      set({
-        isSignedIn: true,
-        session: agent.session,
-        did: agent.session?.did,
-        handle: agent.session?.handle,
-      });
     } catch (error) {
       console.error('Sign In failed:', error);
       throw error;
