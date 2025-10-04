@@ -11,7 +11,6 @@ import SignInScreen from './screens/SignInScreen';
 import { PortalHost } from '@rn-primitives/portal';
 import FindScreen from './screens/FindScreen';
 import ShareScreen from './screens/ShareScreen';
-import SplashScreen from './screens/SplashScreen';
 import { View } from 'react-native';
 import { PlatformPressable, Text } from '@react-navigation/elements';
 
