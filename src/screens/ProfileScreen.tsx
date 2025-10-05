@@ -7,12 +7,8 @@ const ProfileScreen = () => {
 
   return (
     <View className="flex-1 items-center justify-center">
-      <Text className="text-xl font-serif text-brand-primary">
-        Profile Screen
-      </Text>
-
       <Button onPress={signOut} className="bg-primary">
-        <Text className="text-primary-foreground">Sign Out</Text>
+        <Text className="text-primary-foreground font-black">Sign Out</Text>
       </Button>
     </View>
   );
