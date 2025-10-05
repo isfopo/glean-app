@@ -8,6 +8,7 @@ import { PortalHost } from '@rn-primitives/portal';
 import FindScreen from './screens/FindScreen';
 import ShareScreen from './screens/ShareScreen';
 import { MainTabBar } from './components/tab-bars/MainTabBar';
+import ProfileScreen from './screens/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -17,6 +18,7 @@ const TabNavigator = () => {
     <Tab.Navigator tabBar={props => <MainTabBar {...props} />}>
       <Tab.Screen name="Find" component={FindScreen} />
       <Tab.Screen name="Share" component={ShareScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 };

@@ -13,7 +13,7 @@ export const MainTabBar = ({
   const { buildHref } = useLinkBuilder();
 
   return (
-    <View className="w-full flex flex-row justify-around pb-16 pt-8 border-t-2 border-l-muted border-r-muted">
+    <View className="w-full flex flex-row justify-around pb-16 pt-8 bg-card border-t-2 border-t-border">
       {state.routes.map((route, index) => {
         console.log(index);
         if (index === undefined) {
@@ -45,6 +45,7 @@ export const MainTabBar = ({
 
         return (
           <PlatformPressable
+            key={route.key}
             href={buildHref(route.name, route.params)}
             accessibilityState={isFocused ? { selected: true } : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
