@@ -28,9 +28,9 @@ const AppNavigator = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: !session }}>
         {!session ? (
-          <Stack.Screen name="SignIn" component={SignInScreen} />
+          <Stack.Screen name="Sign In" component={SignInScreen} />
         ) : (
           <Stack.Screen name="Main" component={TabNavigator} />
         )}

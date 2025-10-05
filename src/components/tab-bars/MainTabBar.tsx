@@ -15,7 +15,6 @@ export const MainTabBar = ({
   return (
     <View className="w-full flex flex-row justify-around pb-16 pt-8 bg-card border-t-2 border-t-border">
       {state.routes.map((route, index) => {
-        console.log(index);
         if (index === undefined) {
           return null;
         }
