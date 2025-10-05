@@ -1,14 +1,10 @@
 import { create } from 'zustand';
-import { AtpSessionData, BskyAgent } from '@atproto/api';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AtpSessionData } from '@atproto/api';
 import { postApiAuthLogin } from '@/api';
 import { encodeToBase64 } from '@/lib/crypto';
 import client from '@/client';
-
-const getAgent = (): BskyAgent => {
-  return new BskyAgent({
-    service: 'https://bsky.social/',
-  });
-};
 
 export interface UserCredentials {
   handle: string;
@@ -16,68 +12,70 @@ export interface UserCredentials {
 }
 
 type AuthState = {
-  isLoading: boolean;
   isSignedIn: boolean;
-  session: AtpSessionData | undefined;
-  handle: string | null;
-  did: string | null;
+  session: AtpSessionData | null;
   profile: string | null;
   signIn: (data: UserCredentials) => Promise<void>;
   signOut: () => void;
   signUp: (data: any) => Promise<void>;
-  bootstrapAsync: () => Promise<void>;
 };
 
-export const useAuthStore = create<AuthState>(set => ({
-  isLoading: true,
-  isSignedIn: false,
-  session: undefined,
-  agent: getAgent(),
-  handle: null,
-  did: null,
-  profile: null,
-  signIn: async ({ handle, password }: UserCredentials) => {
-    // Call login route in client
-    const { data } = await postApiAuthLogin({
-      client,
-      headers: {
-        Authorization: `Basic ${encodeToBase64(`${handle}:${password}`)}`,
-        Accept: 'application/json',
-      },
-    });
-
-    if (!data) {
-      throw new Error('Invalid response');
-    }
-
-    set({
-      isSignedIn: true,
-      session: data.session as unknown as AtpSessionData,
-    });
-
-    try {
-    } catch (error) {
-      console.error('Sign In failed:', error);
-      throw error;
-    }
-  },
-  signOut: async () => {
-    set({
+export const useAuthStore = create<AuthState>()(
+  persist(
+    set => ({
       isSignedIn: false,
-      session: undefined,
-      did: null,
+      session: null,
       profile: null,
-      handle: null,
-    });
-  },
-  signUp: async (_data: UserCredentials) => {
-    try {
-      throw new Error('Not implemented');
-    } catch (error) {
-      console.error('Sign Up failed:', error);
-    }
-  },
-  bootstrapAsync: async () => {
-    set({ isLoading: false });
-  },
-}));
+      signIn: async ({ handle, password }: UserCredentials) => {
+        // Call login route in client
+        const { data } = await postApiAuthLogin({
+          client,
+          headers: {
+            Authorization: `Basic ${encodeToBase64(`${handle}:${password}`)}`,
+            Accept: 'application/json',
+          },
+        });
+
+        if (!data) {
+          throw new Error('Invalid response');
+        }
+
+        set({
+          isSignedIn: true,
+          session: data.session as unknown as AtpSessionData,
+        });
+
+        try {
+          // Additional setup if needed
+        } catch (error) {
+          console.error('Sign In failed:', error);
+          throw error;
+        }
+      },
+      signOut: () => {
+        set({
+          isSignedIn: false,
+          session: undefined,
+          profile: null,
+        });
+      },
+      signUp: async (_data: UserCredentials) => {
+        try {
+          throw new Error('Not implemented');
+        } catch (error) {
+          console.error('Sign Up failed:', error);
+        }
+      },
+    }),
+    {
+      version: 1,
+      name: 'auth-storage',
+      storage: createJSONStorage(() => AsyncStorage),
+      partialize: state => ({
+        isSignedIn: state.isSignedIn,
+        session: state.session,
+        profile: state.profile,
+      }),
+    },
+  ),
+);
