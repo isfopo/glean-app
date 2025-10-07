@@ -21,4 +21,4 @@
 - **Styling**: NativeWind/Tailwind CSS classes, platform-specific with `Platform.select`.
 - **Structure**: Functional components, hooks for state, no prop drilling.
 
-Follow React Native best practices, keep components modular and reusable.
+Follow React Native best practices, keep components modular and reusable. This app does not use Expo, instead it uses React Native CLI.
