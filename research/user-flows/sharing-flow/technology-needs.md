@@ -55,13 +55,6 @@ This document exports the findings from parsing the `epics.md` file, identifying
 - **Cons**: Development complexity, platform-specific bugs.
 - **Impact**: Excellent on-device performance; low cost but higher initial effort.
 
-### Solution 2: Expo Managed Workflow with Expo SDK (Simplified Integration)
-
-- **Description**: Use Expo SDK modules for camera, notifications, and haptics within React Native CLI.
-- **Pros**: Ease of development, cross-platform consistency.
-- **Cons**: Performance overhead, vendor lock-in.
-- **Impact**: Good for simple flows; moderate cost, potential latency in AI.
-
 ### Solution 3: Hybrid with Third-Party Libraries and Cloud Fallback (Balanced Scalability)
 
 - **Description**: Mix libraries with optional cloud for AI (e.g., Firebase ML fallback).
