@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "generate": "openapi-ts"
+    "generate": "openapi-ts",
+    "backlog": "backlog board view"
   },
   "dependencies": {
     "@atproto/api": "^0.17.0",
@@ -65,6 +66,7 @@
     "@types/react": "^19.1.0",
     "@types/react-test-renderer": "^19.1.0",
     "babel-plugin-module-resolver": "^5.0.2",
+    "backlog.md": "^1.15.0",
     "eslint": "^8.19.0",
     "jest": "^29.6.3",
     "openapi-typescript": "7.9.1",
