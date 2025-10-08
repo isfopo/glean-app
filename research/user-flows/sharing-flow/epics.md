@@ -53,6 +53,15 @@ These epics cover the essential features for a functional sharing flow MVP, focu
    - **Acceptance Criteria**: Motivates sharing; enhances community feel; respects opt-in preferences.
    - **Effort**: 1 week.
 
+6. **Epic: Notifications & Basic Badges**
+   - **User Story**: As a user, I want to receive notifications and badges for my shares.
+   - **Tasks**:
+     - Implement in-app notification banner for finds using local state.
+     - Create basic badge system (e.g., "Item Shared") stored in AsyncStorage.
+     - Add push notifications with opt-in via @react-native-firebase/messaging.
+   - **Acceptance Criteria**: Motivates sharing; enhances community feel; respects opt-in preferences.
+   - **Effort**: 1 week.
+
 ## Additional Epics (Post-MVP)
 
 These epics build on the MVP, adding advanced features for better UX. Implement in phases based on user feedback.
@@ -92,6 +101,13 @@ These epics build on the MVP, adding advanced features for better UX. Implement 
      - Implement optional reflection prompts for emotional support.
    - **Acceptance Criteria**: Increases engagement without pressure; personalized for personas.
    - **Effort**: 2 weeks.
+
+5. **Epic: Advanced Analytics**
+   - **User Story**: As a user, I want advanced analytics to understand my sharing habits.
+   - **Tasks**:
+     - Integrate with confirmation screen for shares and optional reflection prompts.
+    - **Acceptance Criteria**: Respects user choice; handles private options gracefully; no data transmission for private.
+    - **Effort**: 1 week.
 
 ## Implementation Plan
 
