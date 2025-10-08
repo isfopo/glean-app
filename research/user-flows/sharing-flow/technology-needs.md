@@ -19,7 +19,7 @@ This document exports the findings from parsing the `epics.md` file, identifying
 ### 3. Notifications and Gamification (Notifications & Basic Badges, Personalized Gamification)
 
 - **Requirements**: Push notifications with opt-in, in-app banners, badge systems (e.g., "Item Shared"), persona-specific badges, nudges, and reflection prompts.
-- **Technologies**: Push notification libraries (e.g., @react-native-firebase/messaging or expo-notifications), local storage (AsyncStorage), and conditional rendering for personalization.
+- **Technologies**: Push notification libraries (e.g., @react-native-firebase/messaging), local storage (AsyncStorage), and conditional rendering for personalization.
 
 ### 4. Accessibility and Advanced AI (Accessibility Enhancements, Advanced AI & Feedback)
 
