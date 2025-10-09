@@ -1,16 +1,15 @@
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { useShareStore } from '@/store/share';
-import { useCaptureStore } from '@/store/capture';
 import { View } from 'react-native';
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import { useEffect, useRef, useState } from 'react';
 import { Vibration } from 'react-native';
 
 export const CaptureStep = () => {
-  const { nextStep } = useShareStore();
-  const { setImage } = useCaptureStore();
+  const { nextStep, setImage } = useShareStore();
   const devices = useCameraDevices();
+  console.log(devices);
   const device = devices.find(d => d.position === 'back');
   const cameraRef = useRef<any>(null);
   const [hasPermission, setHasPermission] = useState(false);
@@ -53,13 +52,7 @@ export const CaptureStep = () => {
 
   return (
     <View className="flex-1">
-      <Camera
-        ref={cameraRef}
-        device={device}
-        isActive={true}
-        style={{ flex: 1 }}
-        photo={true}
-      />
+      <Camera ref={cameraRef} device={device} isActive={true} photo={true} />
       {/* Centered frame overlay */}
       <View className="absolute inset-0 items-center justify-center">
         <View className="w-64 h-80 border-2 border-white rounded-lg opacity-70" />
