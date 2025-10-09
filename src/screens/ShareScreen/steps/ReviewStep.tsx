@@ -3,12 +3,12 @@ import { Text } from '@/components/ui/text';
 import { useShareStore } from '@/store/share';
 import { View } from 'react-native';
 
-export const CaptureStep = () => {
+export const ReviewStep = () => {
   const { nextStep } = useShareStore();
 
   return (
-    <View className="flex-1 s-100 items-center justify-center">
-      <Text className="text-xl font-serif text-brand-primary">Capture</Text>
+    <View className="flex-1 items-center justify-center">
+      <Text className="text-xl font-serif text-brand-primary">Review</Text>
       <Button onPress={nextStep}>
         <Text>Next</Text>
       </Button>
