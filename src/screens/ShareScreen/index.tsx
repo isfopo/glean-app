@@ -13,7 +13,13 @@ const ShareScreen = () => {
   const currentScreen = useMemo(() => {
     switch (step) {
       case 0:
-        return <Stack.Screen name="Capture" component={CaptureStep} />;
+        return (
+          <Stack.Screen
+            name="Capture"
+            component={CaptureStep}
+            options={{ animation: 'fade_from_bottom' }}
+          />
+        );
       case 1:
         return <Stack.Screen name="Review" component={ReviewStep} />;
       case 2:
