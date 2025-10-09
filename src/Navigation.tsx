@@ -7,15 +7,32 @@ import SignInScreen from './screens/SignInScreen';
 import { PortalHost } from '@rn-primitives/portal';
 import FindScreen from './screens/FindScreen';
 import ShareScreen from './screens/ShareScreen';
-import { MainTabBar } from './components/tab-bars/MainTabBar';
+import { Fontisto } from '@react-native-vector-icons/fontisto';
+
 import ProfileScreen from './screens/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
+const iconMap: Record<string, string> = {
+  Find: 'search',
+  Share: 'share',
+  Profile: 'person',
+};
+
 const TabNavigator = () => {
   return (
-    <Tab.Navigator tabBar={props => <MainTabBar {...props} />}>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color }) => {
+          // You can return any component that you like here!
+          return <Fontisto name={iconMap[route.name]} style={{ color }} />;
+        },
+        tabBarActiveTintColor: 'tomato',
+        tabBarInactiveTintColor: 'gray',
+        animation: 'shift',
+      })}
+    >
       <Tab.Screen name="Find" component={FindScreen} />
       <Tab.Screen name="Share" component={ShareScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
