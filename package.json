@@ -53,6 +53,7 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",
+    "@babel/preset-flow": "^7.27.1",
     "@babel/runtime": "^7.25.0",
     "@hey-api/openapi-ts": "^0.83.1",
     "@react-native-community/cli": "20.0.0",
