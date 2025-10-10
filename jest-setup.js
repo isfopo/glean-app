@@ -1,5 +1,6 @@
 // Empty setup file to override react-native setup
 
+/* eslint-disable no-undef */
 jest.mock('@react-navigation/native', () => ({
   NavigationContainer: ({ children }) => children,
 }));

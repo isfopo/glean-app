@@ -9,7 +9,7 @@
     "start": "react-native start",
     "test": "jest",
     "generate": "openapi-ts",
-    "backlog": "backlog board view"
+    "backlog": "backlog board view`"
   },
   "dependencies": {
     "@atproto/api": "^0.17.0",
