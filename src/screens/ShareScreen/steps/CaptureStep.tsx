@@ -11,7 +11,7 @@ export const CaptureStep = () => {
   const devices = useCameraDevices();
   console.log(devices);
   const device = devices.find(d => d.position === 'back');
-  const cameraRef = useRef<any>(null);
+  const cameraRef = useRef<Camera>(null);
   const [hasPermission, setHasPermission] = useState(false);
 
   useEffect(() => {
